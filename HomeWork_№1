@@ -88,6 +88,8 @@ int main() {
 			q = 0;
 		}
 		if (q > 4) {
+		    printf("Enter menu (1, 2, 3, 4):");
+		    scanf("%d", &q);
 			return 0;
 		}
 	}
