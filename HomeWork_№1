@@ -1,96 +1,163 @@
+#include <malloc.h> 
 #include <stdio.h>
-#include <string.h>
-
-void in(char s[]) {
-	printf("Enter array%s:" , s);
-	scanf("%s", s);
-	
+void push_back(int *arr, int size, int value)
+{
+	int *newArray = (int*)malloc(sizeof(int) * (size+1));;
+	for (int i = 0; i < size; i++)
+	{
+		newArray[i] = arr[i];
+	}
+	newArray[size] = value;
+	size++;
+	arr = newArray;
+	printf("array after element added:");
+	printf("\n");
+	for(int i=0;i<size;i++)
+    {
+      printf("%d",arr[i]);
+      printf("\t");
+    }
+    printf("\n");
 }
-
-void out(char s[]) {
-	printf("%s\n", s);
-}
-
-void add(char s[]) {
-	int i, j;
-	char s2[101];
-	printf("Еlement added to array:");
-	scanf("%s", s2);
-	j = 0;
-	i = strlen(s);
-	while (j < strlen(s2)) {
-         s[i] = s2[j];
-         i++;
-         j++;
- 	}
-}
-
-void del(char s[]) {
-	int i, j, k=0, a;
-	char s2[101], s3[101];
-	printf("The element you want to remove from the array:");
-    scanf("%s", s2);
-    for (i = 0; i < strlen(s); i++) {
-    	a = 0;
-    	for (j = 0; j < strlen(s2); j++) {
-           if (s[i] == s2[j]) {
-           	a++;
-           }
-    	}
-        if (a == 0) {
-        	s3[k] = s[i];
-        	k++;
+void rem_elt(int *A, int *n, int x)//функция для удаления элемента х из массива
+{
+     int i_from, i_to;
+     i_from=0;
+     i_to=0;
+     while (1)
+     {
+        if (i_from > *n) break;   
+        if (A[i_from]==x)
+        {
+           i_from++;
+        }
+        else
+        {
+           A[i_to++]=A[i_from++];    
+        }
+      }      
+      *n=i_to-1;
+      return;
+}   
+int main()
+{
+    int size;
+    printf("Size of massive №1:");
+    scanf("%d", &size);
+    printf("\n");    
+    int *arr = (int*)malloc(sizeof(int) * size);  // Создание динамического массива из size элементов типа int
+    for(int i=0;i<size;i++)
+    {
+      printf("Element %d => ", i+1);
+      scanf("%d",&arr[i]);
+      putchar("\n");
+        
+    }    
+    printf("First array:");
+    printf("\t");
+    for(int i=0;i<size;i++)
+    {
+        printf("%d",arr[i]);
+        printf("\t");
+    }
+    
+    printf("\n");
+    
+    int size2;
+    printf("Size of massive №2:");
+    scanf("%d", &size2);
+    printf("\n");    
+    int *arr2 = (int*)malloc(sizeof(int) * size2);  // Создание динамического массива из size элементов типа int
+    for(int i=0;i<size2;i++)
+    {
+      printf("Element %d => ", i+1);
+      scanf("%d",&arr2[i]);
+      putchar("\n");
+        
+    }
+    
+    printf("Second array:");
+    printf("\t");
+    for(int i=0;i<size2;i++)
+    {
+        printf("%d",arr2[i]);
+        printf("\t");
+    }
+    
+    printf("\n");
+    while(1)
+    {
+        int v;
+        printf("select array ==> 1 <==> 2 <==");
+        printf("\n");
+        printf("program exit ==> 3");
+        printf("\n");
+        scanf("%d",&v);
+        if(v==1)
+        {
+            int d;
+            printf("What you want to do: delete or add, 1 => delete, 2 => add");
+            printf("\n");
+            scanf("%d",&d);
+            if(d==1)
+            {
+                int r;
+                printf("Please, enter the element you want to remove");
+                printf("\n");
+                scanf("%d", &r);
+                rem_elt(arr,&size,r);
+                
+                printf("Array after removing: ");
+                for (int i=0; i<size; i++)
+                {
+                    printf("%d ",arr[i]);
+                }
+                printf("\n");
+            }
+            if(d==2)
+            {
+                int value;
+                printf("Write the number you want to add to the array");
+                printf("\n");
+                scanf("%d", &value);
+                push_back(arr,size,value);
+            }
+        }
+        if(v==2)
+        {
+            int d;
+            printf("What you want to do: delete or add, 1 => delete, 2 => add");
+            scanf("%d",&d);
+            if(d==1)
+            {
+                int r;
+                printf("Please, enter the element you want to remove");
+                printf("\n");
+                scanf("%d", &r);
+                rem_elt(arr2,&size2,r);
+                
+                printf("Array after removing: ");
+                for (int i=0; i<size2; i++)
+                {
+                    printf("%d ",arr2[i]);
+                }
+                printf("\n");
+            }
+            if(d==2)
+            {
+                int value;
+                printf("write the number you want to add to the array");
+                printf("\n");
+                scanf("%d", &value);
+                push_back(arr2,size2,value);
+            }
+        }
+        if(v==3)
+        {
+            break;
         }
     }
-    strcpy(s, s3);
-}
-
-int main() {
-	int q = 0;
-	char s1[101]="", s2[101] = "";
-	printf("++++++++++++Menu-------------\n");
-	printf("*       1.Enter array       *\n");
-	printf("*       2.Output array      *\n");
-	printf("*       3.Add element       *\n");
-	printf("*       4.Delete element    *\n");
-	printf("-------------++++++++++++++++\n");
-    
-    while (q == 0) { 
-		printf("Enter menu (1, 2, 3, 4):");
-		scanf("%d", &q);
-		if (q == 1) {
-			printf("First array...");
-			in(s1);
-			printf("Second array...");
-			in(s2);
-		    q = 0;
-		}
-	        if (q == 2) {
-		    printf("First array:");
-		    out(s1);
-		    printf("Second array:");
-		    out(s2);
-		    q = 0;
-			
-		}
-		if (q == 3) {
-		    printf("In first array...");
-		    add(s1);
-		    printf("In second array...");
-		    add(s2);
-		    q = 0;
-		}
-		if (q == 4) {
-		    printf("In first array...");
-		    del(s1);
-		    printf("In second array...");
-		    del(s2);
-			q = 0;
-		}
-		if (q > 4) {
-		    printf("Enter menu (1, 2, 3, 4):");
-		    scanf("%d", &q);
-			return 0;
-		}
-	}
+    free(arr);
+    free(arr2);
+    return 0;
 }
